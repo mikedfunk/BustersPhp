@@ -1,0 +1,13 @@
+{
+    "require-dev": {
+        "mockery/mockery": "*"
+    },
+    "autoload": {
+        "psr-0": {
+            "MikeFunk\\BustersPhp": "src"
+        }
+    },
+    "require": {
+        "pimple/pimple": "*"
+    }
+}
