@@ -16,9 +16,9 @@ A simple class to generate js/css tags with cache names from busters.json. This 
         // overridden.
         'bustersJson' => '{"whatever.css" => "3g3kf1", "myscript.js" => "hgok230"}',
         'cssBasePath' => '/path/to/css/cache',
-        'jsBasePath' => '/path/to/js/cache',
+        'jsBasePath'  => '/path/to/js/cache',
         'cssTemplate' => '<link href="{{CSS_BASE_PATH}}{{HASH}}.min.css">',
-        'jsTemplate' => '<script src="{{JS_BASE_PATH}}{{HASH}}.min.js"></script>',
+        'jsTemplate'  => '<script src="{{JS_BASE_PATH}}{{HASH}}.min.js"></script>',
     );
     $bustersPhp = new BustersPhp($config);
 ```
