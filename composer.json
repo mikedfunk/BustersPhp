@@ -1,13 +1,14 @@
 {
-    "require-dev": {
-        "mockery/mockery": "*"
-    },
-    "autoload": {
-        "psr-0": {
-            "MikeFunk\\BustersPhp": "src"
+    "name": "mikefunk/bustersphp",
+    "description": "A simple class to generate js/css tags with cache names from busters.json. This is related to gulp-buster.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mike Funk",
+            "email": "mike@mikefunk.com"
         }
-    },
+    ],
     "require": {
-        "pimple/pimple": "*"
+
     }
 }

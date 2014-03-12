@@ -9,7 +9,6 @@ namespace MikeFunk\BustersPhp\Tests;
 
 use Exception;
 use MikeFunk\BustersPhp\BustersPhp;
-use Mockery;
 
 /**
  * BustersPhpTest
