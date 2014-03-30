@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/mikedfunk/BustersPhp.png?branch=master)](https://travis-ci.org/mikedfunk/BustersPhp)
 # BustersPhp
 
 A simple class to generate js/css tags with cache names from busters.json. This is related to [gulp-buster](https://www.npmjs.org/package/gulp-buster).
