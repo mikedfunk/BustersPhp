@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "MikeFunk\\BustersPhp": "src/MikeFunk/BustersPhp"
+            "MikeFunk\\BustersPhp\\": "src/MikeFunk/BustersPhp"
         }
     }
 }
