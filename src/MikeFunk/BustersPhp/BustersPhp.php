@@ -14,7 +14,7 @@ use Exception;
  *
  * @author Michael Funk <mike@mikefunk.com>
  */
-class BustersPhp
+class BustersPhp implements BustersPhpInterface
 {
     /**
      * config location
