@@ -22,4 +22,9 @@ return array(
      * the template used to create the js script tag
      */
     'jsTemplate' => '<script src="{{JS_BASE_PATH}}.{{HASH}}.js"></script>',
+
+    /**
+     * path to busters.json
+     */
+    'bustersJsonPath' => $_SERVER['DOCUMENT_ROOT'].'/assets/cache/busters.json',
 );

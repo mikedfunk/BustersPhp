@@ -8,6 +8,7 @@
 namespace MikeFunk\BustersPhp;
 
 use Exception;
+use MikeFunk\BustersPhp\Support\FileSystem;
 
 /**
  * BustersPhp
@@ -31,13 +32,25 @@ class BustersPhp implements BustersPhpInterface
     protected $config;
 
     /**
-     * get config if passed in
+     * get config if passed in. also ghetto dependency injection for mocking
+     * the file system in testing.
      *
      * @param array $config (default: array())
+     * @param null|FileSystem $fileSystem optional dependency injection
      */
-    public function __construct(array $config = array())
+    public function __construct(array $config = array(), $fileSystem = null)
     {
+        // combine any passed in config with default config
         $this->config = array_merge($this->getConfig(), $config);
+
+        // inject fileSystem or instantiate it
+        // @codeCoverageIgnoreStart
+        if ($fileSystem) {
+            $this->fileSystem = $fileSystem;
+        } else {
+            $this->fileSystem = new FileSystem;
+        }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -79,33 +92,40 @@ class BustersPhp implements BustersPhpInterface
     protected function asset($type)
     {
         // if no bustersJson, exception
-        if (!array_key_exists('bustersJson', $this->config)) {
+        if (!$this->fileSystem->fileExists($this->config['bustersJsonPath'])) {
             throw new Exception('busters json not found');
         }
 
+        // get busters json and decode it
+        $bustersJson = $this->fileSystem->getFile($this->config['bustersJsonPath']);
+        $busters = json_decode($bustersJson);
 
-        // get busters.json hash for item of this type
-        $hash = '';
-        $bustersJson = json_decode($this->config['bustersJson']);
-        foreach ($bustersJson as $key => $value) {
+        // get busters.json hash for item of this type mapped down to this type
+        // only
+        $bustersOfThisType = array();
+        foreach ($busters as $key => $value) {
             if (strpos($key, $type) !== false) {
-                $hash = $value;
-                break;
+                $bustersOfThisType[$key] = $value;
             }
         }
 
         // if no $type in bustersJson, throw exception
-        if (!$hash) {
+        if (!$bustersOfThisType) {
             throw new Exception('no entries of type '.$type.' found.');
         }
 
-        // render
+        // get config
         $template    = $this->config[$type.'Template'];
-        $template    = str_replace('{{HASH}}', $hash, $template);
         $basePath    = $this->config[$type.'BasePath'];
         $templateVar = '{{'.strtoupper($type).'_BASE_PATH}}';
-        $return      = str_replace($templateVar, $basePath, $template);
-        return $return;
+
+        // add to array and implode to string
+        $busterStrings = array();
+        foreach ($bustersOfThisType as $fileName => $hash) {
+            $template        = str_replace('{{HASH}}', $hash, $template);
+            $busterStrings[] = str_replace($templateVar, $basePath, $template);
+        }
+        return implode($busterStrings, "\n");
     }
 
     /**
@@ -115,6 +135,6 @@ class BustersPhp implements BustersPhpInterface
      */
     public function assets()
     {
-        return $this->asset('js')."\n".$this->asset('css');
+        return $this->asset('css')."\n".$this->asset('js');
     }
 }
