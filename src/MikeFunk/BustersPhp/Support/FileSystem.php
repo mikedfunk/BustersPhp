@@ -33,6 +33,7 @@ class FileSystem
      */
     public function getFile($filePath)
     {
-        return require $filePath;
+        // return require $filePath;
+        return file_get_contents($filePath);
     }
 }

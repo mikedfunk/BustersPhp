@@ -122,7 +122,9 @@ class BustersPhp implements BustersPhpInterface
         // add to array and implode to string
         $busterStrings = array();
         foreach ($bustersOfThisType as $fileName => $hash) {
+            $fileBaseName    = pathInfo($fileName, PATHINFO_FILENAME);
             $template        = str_replace('{{HASH}}', $hash, $template);
+            $template        = str_replace('{{FILE_NAME}}', $fileBaseName, $template);
             $busterStrings[] = str_replace($templateVar, $basePath, $template);
         }
         return implode($busterStrings, "\n");

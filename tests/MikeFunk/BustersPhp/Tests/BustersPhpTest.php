@@ -128,7 +128,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
         $bustersPhp = new BustersPhp($config, $fileSystem);
 
         // ensure output is like template
-        $this->assertEquals($bustersPhp->js(), 'mypath/4kfgkl2.js');
+        $this->assertEquals('mypath/4kfgkl2.js', $bustersPhp->js());
     }
 
     /**

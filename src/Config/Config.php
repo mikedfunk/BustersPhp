@@ -11,7 +11,7 @@ return array(
     /**
      * the template used to create the css link tag
      */
-    'cssTemplate' => '<link href="{{CSS_BASE_PATH}}.{{HASH}}.css" rel="stylesheet">',
+    'cssTemplate' => '<link href="{{CSS_BASE_PATH}}{{FILE_NAME}}.{{HASH}}.css" rel="stylesheet">',
 
     /**
      * the path to the js cache folder
@@ -21,7 +21,7 @@ return array(
     /**
      * the template used to create the js script tag
      */
-    'jsTemplate' => '<script src="{{JS_BASE_PATH}}.{{HASH}}.js"></script>',
+    'jsTemplate' => '<script src="{{JS_BASE_PATH}}{{FILE_NAME}}.{{HASH}}.js"></script>',
 
     /**
      * path to busters.json
