@@ -28,4 +28,11 @@ interface BustersPhpInterface
      * @return string
      */
     public function js();
+
+    /**
+     * return css and js
+     *
+     * @return string
+     */
+    public function assets();
 }
