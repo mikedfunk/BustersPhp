@@ -6,7 +6,7 @@ return array(
     /**
      * the path to the css cache folder
      */
-    'cssBasePath' => $_SERVER['DOCUMENT_ROOT'].'/assets/cache/',
+    'cssBasePath' => '//'.$_SERVER['HTTP_HOST'].'/assets/cache/',
 
     /**
      * the template used to create the css link tag
@@ -16,7 +16,7 @@ return array(
     /**
      * the path to the js cache folder
      */
-    'jsBasePath' => $_SERVER['DOCUMENT_ROOT'].'/assets/cache/',
+    'jsBasePath' => '//'.$_SERVER['HTTP_HOST'].'/assets/cache/',
 
     /**
      * the template used to create the js script tag
