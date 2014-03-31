@@ -8,9 +8,6 @@
             "email": "mike@mikefunk.com"
         }
     ],
-    "require": {
-        "php": ">=5.4.0"
-    },
     "require-dev": {
         "illuminate/support": "4.1.*"
     },
