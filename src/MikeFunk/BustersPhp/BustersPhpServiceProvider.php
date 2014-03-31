@@ -14,7 +14,7 @@ use Illuminate\Support\ServiceProvider;
  *
  * @author Michael Funk <mike@mikefunk.com>
  */
-class BustersPhpServiceProvider
+class BustersPhpServiceProvider extends ServiceProvider
 {
 
     /**
