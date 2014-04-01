@@ -69,7 +69,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
      * @expectedException Exception
      * @return void
      */
-    public function testCssFailNoBustersJson()
+    public function testCssFailNoBustersJsonFile()
     {
         // mock fileExists to return false
         $fileSystem = Mockery::mock('MikeFunk\BustersPhp\Support\FileSystem');
@@ -81,12 +81,11 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * fail with no css in busters.json
+     * empty no css in busters.json
      *
-     * @expectedException Exception
      * @return void
      */
-    public function testCssFailNoCssInBustersJson()
+    public function testCssEmptyNoCssInBustersJson()
     {
         // mock getFile to return test json
         $fileSystem = Mockery::mock('MikeFunk\BustersPhp\Support\FileSystem');
@@ -100,8 +99,9 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
         // instantiate
         $bustersPhp = new BustersPhp(array(), $fileSystem);
 
-        // ensure exception is thrown
-        $noWay = $bustersPhp->css();
+        // ensure result is empty
+        $result = $bustersPhp->css();
+        $this->assertEquals('', $result);
     }
 
     /**
@@ -129,6 +129,30 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
 
         // ensure output is like template
         $this->assertEquals('mypath/4kfgkl2.js', $bustersPhp->js());
+    }
+
+    /**
+     * empty no js in busters.json
+     *
+     * @return void
+     */
+    public function testJsEmptyNoJsInBustersJson()
+    {
+        // mock getFile to return test json
+        $fileSystem = Mockery::mock('MikeFunk\BustersPhp\Support\FileSystem');
+        $json = '{"myfile.css": "4kfgkl2"}';
+        $fileSystem
+            ->shouldReceive('fileExists')
+            ->andReturn(true)
+            ->shouldReceive('getFile')
+            ->andReturn($json);
+
+        // instantiate
+        $bustersPhp = new BustersPhp(array(), $fileSystem);
+
+        // ensure result is empty
+        $result = $bustersPhp->js();
+        $this->assertEquals('', $result);
     }
 
     /**

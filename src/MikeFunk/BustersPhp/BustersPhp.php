@@ -109,19 +109,14 @@ class BustersPhp implements BustersPhpInterface
             }
         }
 
-        // if no $type in bustersJson, throw exception
-        if (!$bustersOfThisType) {
-            throw new Exception('no entries of type '.$type.' found.');
-        }
-
-        // get config
-        $template    = $this->config[$type.'Template'];
-        $basePath    = $this->config[$type.'BasePath'];
-        $templateVar = '{{'.strtoupper($type).'_BASE_PATH}}';
-
         // add to array and implode to string
         $busterStrings = array();
         foreach ($bustersOfThisType as $fileName => $hash) {
+            // get config
+            $template    = $this->config[$type.'Template'];
+            $basePath    = $this->config[$type.'BasePath'];
+            $templateVar = '{{'.strtoupper($type).'_BASE_PATH}}';
+
             $fileBaseName    = pathInfo($fileName, PATHINFO_FILENAME);
             $template        = str_replace('{{HASH}}', $hash, $template);
             $template        = str_replace('{{FILE_NAME}}', $fileBaseName, $template);
