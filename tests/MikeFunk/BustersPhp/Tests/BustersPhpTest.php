@@ -45,7 +45,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
     {
         // mock getFile to return test json
         $fileSystem = Mockery::mock('MikeFunk\BustersPhp\Support\FileSystem');
-        $json = '{"myfile.css": "4kfgkl2"}';
+        $json = '{"path/to/myfile.css": "4kfgkl2"}';
         $fileSystem
             ->shouldReceive('fileExists')
             ->andReturn(true)
@@ -54,13 +54,12 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
 
         // set config and instantiate
         $config = array(
-            'cssBasePath' => 'mypath',
-            'cssTemplate' => '{{CSS_BASE_PATH}}/{{HASH}}.testcss'
+            'cssTemplate' => '{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testcss'
         );
         $bustersPhp = new BustersPhp($config, $fileSystem);
 
         // ensure output is like template
-        $this->assertEquals('mypath/4kfgkl2.testcss', $bustersPhp->css());
+        $this->assertEquals('path/to/myfile.4kfgkl2.testcss', $bustersPhp->css());
     }
 
     /**
@@ -113,7 +112,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
     {
         // mock getFile to return test json
         $fileSystem = Mockery::mock('MikeFunk\BustersPhp\Support\FileSystem');
-        $json = '{"myfile.js": "4kfgkl2"}';
+        $json = '{"path/to/myfile.js": "4kfgkl2"}';
         $fileSystem
             ->shouldReceive('fileExists')
             ->andReturn(true)
@@ -122,13 +121,12 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
 
         // set config and instantiate
         $config = array(
-            'jsBasePath'  => 'mypath',
-            'jsTemplate'  => '{{JS_BASE_PATH}}/{{HASH}}.js',
+            'jsTemplate'  => '{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testjs',
         );
         $bustersPhp = new BustersPhp($config, $fileSystem);
 
         // ensure output is like template
-        $this->assertEquals('mypath/4kfgkl2.js', $bustersPhp->js());
+        $this->assertEquals('path/to/myfile.4kfgkl2.testjs', $bustersPhp->js());
     }
 
     /**
@@ -164,7 +162,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
     {
         // mock getFile to return test json
         $fileSystem = Mockery::mock('MikeFunk\BustersPhp\Support\FileSystem');
-        $json = '{"myfile.js": "4kfgkl2", "myfile.css": "5kfgkl2"}';
+        $json = '{"path/to/my/js/my_js_file.js": "4kfgkl2", "path/to/my/css/my_css_file.css": "5kfgkl2"}';
         $fileSystem
             ->shouldReceive('fileExists')
             ->andReturn(true)
@@ -174,15 +172,13 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
         // set template
         // call, ensure output is as expected
         $config = array(
-            'jsBasePath' => 'jspath',
-            'cssBasePath' => 'csspath',
-            'jsTemplate'  => '{{JS_BASE_PATH}}/{{HASH}}.js',
-            'cssTemplate' => '{{CSS_BASE_PATH}}/{{HASH}}.css',
+            'jsTemplate'  => '{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testjs',
+            'cssTemplate'  => '{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testcss',
         );
         $bustersPhp = new BustersPhp($config, $fileSystem);
 
         // ensure output is like template
-        $expected = 'csspath/5kfgkl2.css'."\n".'jspath/4kfgkl2.js';
+        $expected = 'path/to/my/css/my_css_file.5kfgkl2.testcss'."\n".'path/to/my/js/my_js_file.4kfgkl2.testjs';
         $this->assertEquals($expected, $bustersPhp->assets());
     }
 }

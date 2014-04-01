@@ -3,25 +3,16 @@
  * BustersPhp default config
  */
 return array(
-    /**
-     * the path to the css cache folder
-     */
-    'cssBasePath' => '//'.$_SERVER['HTTP_HOST'].'/assets/cache/',
 
     /**
      * the template used to create the css link tag
      */
-    'cssTemplate' => '<link href="{{CSS_BASE_PATH}}{{FILE_NAME}}.{{HASH}}.css" rel="stylesheet">',
-
-    /**
-     * the path to the js cache folder
-     */
-    'jsBasePath' => '//'.$_SERVER['HTTP_HOST'].'/assets/cache/',
+    'cssTemplate' => '<link href="{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.css" rel="stylesheet">',
 
     /**
      * the template used to create the js script tag
      */
-    'jsTemplate' => '<script src="{{JS_BASE_PATH}}{{FILE_NAME}}.{{HASH}}.js"></script>',
+    'jsTemplate' => '<script src="{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.js"></script>',
 
     /**
      * path to busters.json
