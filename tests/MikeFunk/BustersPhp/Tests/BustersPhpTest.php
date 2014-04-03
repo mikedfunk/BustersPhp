@@ -54,7 +54,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
 
         // set config and instantiate
         $config = array(
-            'cssTemplate' => '{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testcss'
+            'cssTemplate' => '{{ROOT_PATH}}{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testcss'
         );
         $bustersPhp = new BustersPhp($config, $fileSystem);
 
@@ -121,7 +121,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
 
         // set config and instantiate
         $config = array(
-            'jsTemplate'  => '{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testjs',
+            'jsTemplate'  => '{{ROOT_PATH}}{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testjs',
         );
         $bustersPhp = new BustersPhp($config, $fileSystem);
 
@@ -172,8 +172,8 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
         // set template
         // call, ensure output is as expected
         $config = array(
-            'jsTemplate'  => '{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testjs',
-            'cssTemplate'  => '{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testcss',
+            'jsTemplate'  => '{{ROOT_PATH}}{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testjs',
+            'cssTemplate'  => '{{ROOT_PATH}}{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testcss',
         );
         $bustersPhp = new BustersPhp($config, $fileSystem);
 

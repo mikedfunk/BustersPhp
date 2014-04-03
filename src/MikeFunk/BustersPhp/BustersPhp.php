@@ -114,12 +114,14 @@ class BustersPhp implements BustersPhpInterface
         foreach ($bustersOfThisType as $fileName => $hash) {
 
             // get config
-            $template        = $this->config[$type.'Template'];
-            $pathInfo        = pathInfo($fileName);
-            $fileBasePath    = $pathInfo['dirname'];
-            $fileBaseName    = $pathInfo['filename'];
+            $template     = $this->config[$type.'Template'];
+            $rootPath     = $this->config['rootPath'];
+            $pathInfo     = pathInfo($fileName);
+            $fileBasePath = $pathInfo['dirname'];
+            $fileBaseName = $pathInfo['filename'];
 
             // replace stuff
+            $template        = str_replace('{{ROOT_PATH}}', $rootPath, $template);
             $template        = str_replace('{{HASH}}', $hash, $template);
             $template        = str_replace('{{FILE_PATH}}', $fileBasePath, $template);
             $template        = str_replace('{{FILE_NAME}}', $fileBaseName, $template);

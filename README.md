@@ -6,20 +6,18 @@ A simple class to generate js/css tags with cache names from busters.json. This 
 ## Usage
 
 * use [gulp-buster](https://www.npmjs.org/package/gulp-buster) to generate combined css/js cache files with the hash as the file name
-* add BustersPhp to your PHP application via composer: `composer require MikeFunk/BustersPhp`
+* add BustersPhp to your PHP application via composer: `composer require MikeFunk/BustersPhp:dev-develop`
 * instantiate in your php with your config passed in:
 
 ```php
     use MikeFunk\BustersPhp\BustersPhp;
 
+    // optional config array - if you want to set a custom config
     $config = array(
-        // bustersJson is required! Everything else has defaults that can be
-        // overridden.
-        'bustersJson' => '{"whatever.css" => "3g3kf1", "myscript.js" => "hgok230"}',
-        'cssBasePath' => '/path/to/css/cache',
-        'jsBasePath'  => '/path/to/js/cache',
-        'cssTemplate' => '<link href="{{CSS_BASE_PATH}}{{HASH}}.min.css">',
-        'jsTemplate'  => '<script src="{{JS_BASE_PATH}}{{HASH}}.min.js"></script>',
+        'rootPath'        => $_SERVER['DOCUMENT_ROOT'],
+        'cssTemplate'     => '<link href="{{ROOT_PATH}}/{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.css" rel="stylesheet">',
+        'jsTemplate'      => '<script src="{{ROOT_PATH}}/{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.js"></script>',
+        'bustersJsonPath' => $_SERVER['DOCUMENT_ROOT'].'/assets/cache/busters.json',
     );
     $bustersPhp = new BustersPhp($config);
 ```
@@ -27,13 +25,13 @@ A simple class to generate js/css tags with cache names from busters.json. This 
 
 ```php
     <!-- css link tag -->
-    <?=$bustersJson->css()?>
+    <?=$bustersPhp->css()?>
 
     <!-- js script tag -->
-    <?=$bustersJson->js()?>
+    <?=$bustersPhp->js()?>
 
     <!-- js tag and css tag -->
-    <?=$bustersJson->assets()?>
+    <?=$bustersPhp->assets()?>
 ```
 
 For more information check out [gulp-buster](https://www.npmjs.org/package/gulp-buster)
