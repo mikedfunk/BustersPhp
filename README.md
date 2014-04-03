@@ -10,6 +10,7 @@ A simple class to generate js/css tags with cache names from busters.json. This 
 * instantiate in your php with your config passed in:
 
 ```php
+    <?php
     use MikeFunk\BustersPhp\BustersPhp;
 
     // optional config array - if you want to set a custom config
