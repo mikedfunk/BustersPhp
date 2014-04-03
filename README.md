@@ -15,7 +15,7 @@ A simple class to generate js/css tags with cache names from busters.json. This 
 
     // optional config array - if you want to set a custom config
     $config = array(
-        'rootPath'        => $_SERVER['DOCUMENT_ROOT'],
+        'rootPath'        => '//'.$_SERVER['HTTP_HOST'],
         'cssTemplate'     => '<link href="{{ROOT_PATH}}/{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.css" rel="stylesheet">',
         'jsTemplate'      => '<script src="{{ROOT_PATH}}/{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.js"></script>',
         'bustersJsonPath' => $_SERVER['DOCUMENT_ROOT'].'/assets/cache/busters.json',

@@ -7,7 +7,7 @@ return array(
     /**
      * this would go before the file path if you have it in your template
      */
-    'rootPath' => $_SERVER['DOCUMENT_ROOT'],
+    'rootPath' => '//'.$_SERVER['HTTP_HOST'],
 
     /**
      * the template used to create the css link tag
