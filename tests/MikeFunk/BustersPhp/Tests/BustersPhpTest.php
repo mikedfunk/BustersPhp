@@ -54,12 +54,12 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
 
         // set config and instantiate
         $config = array(
-            'cssTemplate' => '{{ROOT_PATH}}{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testcss'
+            'cssTemplate' => '{{ROOT_PATH}}/{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testcss'
         );
         $bustersPhp = new BustersPhp($config, $fileSystem);
 
         // ensure output is like template
-        $this->assertEquals('//path/to/myfile.4kfgkl2.testcss', $bustersPhp->css());
+        $this->assertEquals('//mysite.com/path/to/myfile.4kfgkl2.testcss', $bustersPhp->css());
     }
 
     /**
@@ -121,12 +121,12 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
 
         // set config and instantiate
         $config = array(
-            'jsTemplate'  => '{{ROOT_PATH}}{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testjs',
+            'jsTemplate'  => '{{ROOT_PATH}}/{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testjs',
         );
         $bustersPhp = new BustersPhp($config, $fileSystem);
 
         // ensure output is like template
-        $this->assertEquals('//path/to/myfile.4kfgkl2.testjs', $bustersPhp->js());
+        $this->assertEquals('//mysite.com/path/to/myfile.4kfgkl2.testjs', $bustersPhp->js());
     }
 
     /**
@@ -172,13 +172,15 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
         // set template
         // call, ensure output is as expected
         $config = array(
-            'jsTemplate'  => '{{ROOT_PATH}}{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testjs',
-            'cssTemplate'  => '{{ROOT_PATH}}{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testcss',
+            'jsTemplate'  => '{{ROOT_PATH}}/{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testjs',
+            'cssTemplate'  => '{{ROOT_PATH}}/{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testcss',
         );
         $bustersPhp = new BustersPhp($config, $fileSystem);
 
         // ensure output is like template
-        $expected = '//path/to/my/css/my_css_file.5kfgkl2.testcss'."\n".'//path/to/my/js/my_js_file.4kfgkl2.testjs';
+        $expected = '//mysite.com/path/to/my/css/my_css_file.5kfgkl2.testcss'
+            ."\n"
+            .'//mysite.com/path/to/my/js/my_js_file.4kfgkl2.testjs';
         $this->assertEquals($expected, $bustersPhp->assets());
     }
 }
