@@ -10,6 +10,10 @@
          stopOnFailure="false"
          syntaxCheck="false"
 >
+<php>
+    <server name="HTTP_HOST" value="mysite.com" />
+    <server name="DOCUMENT_ROOT" value="/path/to" />
+</php>
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory>./tests/MikeFunk/BustersPhp/Tests/</directory>
