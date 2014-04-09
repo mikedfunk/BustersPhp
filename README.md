@@ -25,13 +25,13 @@ A simple class to generate js/css tags with cache names from busters.json. This 
 * echo css/js in your view:
 
 ```php
-    <!-- css link tag -->
+    <!-- css link tagss -->
     <?=$bustersPhp->css()?>
 
-    <!-- js script tag -->
+    <!-- js script tags -->
     <?=$bustersPhp->js()?>
 
-    <!-- js tag and css tag -->
+    <!-- js tags and css tags -->
     <?=$bustersPhp->assets()?>
 ```
 
