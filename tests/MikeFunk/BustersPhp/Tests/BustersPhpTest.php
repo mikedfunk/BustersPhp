@@ -43,6 +43,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
      */
     public function testCssSuccess()
     {
+
         // mock getFile to return test json
         $fileSystem = Mockery::mock('MikeFunk\BustersPhp\Support\FileSystem');
         $json = '{"path/to/myfile.css": "4kfgkl2"}';
