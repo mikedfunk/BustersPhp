@@ -60,7 +60,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
         $bustersPhp = new BustersPhp($config, $fileSystem);
 
         // ensure output is like template
-        $this->assertEquals('//mysite.com/path/to/myfile.4kfgkl2.testcss', $bustersPhp->css());
+        $this->assertEquals('mysite.com/path/to/myfile.4kfgkl2.testcss', $bustersPhp->css());
     }
 
     /**
@@ -127,7 +127,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
         $bustersPhp = new BustersPhp($config, $fileSystem);
 
         // ensure output is like template
-        $this->assertEquals('//mysite.com/path/to/myfile.4kfgkl2.testjs', $bustersPhp->js());
+        $this->assertEquals('mysite.com/path/to/myfile.4kfgkl2.testjs', $bustersPhp->js());
     }
 
     /**
@@ -179,9 +179,9 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
         $bustersPhp = new BustersPhp($config, $fileSystem);
 
         // ensure output is like template
-        $expected = '//mysite.com/path/to/my/css/my_css_file.5kfgkl2.testcss'
+        $expected = 'mysite.com/path/to/my/css/my_css_file.5kfgkl2.testcss'
             ."\n"
-            .'//mysite.com/path/to/my/js/my_js_file.4kfgkl2.testjs';
+            .'mysite.com/path/to/my/js/my_js_file.4kfgkl2.testjs';
         $this->assertEquals($expected, $bustersPhp->assets());
     }
 }
