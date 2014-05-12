@@ -32,6 +32,13 @@ class BustersPhp implements BustersPhpInterface
     protected $config;
 
     /**
+     * the file system instance
+     *
+     * @var FileSystem
+     */
+    protected $fileSystem;
+
+    /**
      * get config if passed in. also ghetto dependency injection for mocking
      * the file system in testing.
      *
@@ -127,7 +134,7 @@ class BustersPhp implements BustersPhpInterface
             $template        = str_replace('{{FILE_NAME}}', $fileBaseName, $template);
             $busterStrings[] = $template;
         }
-        return implode($busterStrings, "\n");
+        return implode("\n", $busterStrings);
     }
 
     /**
