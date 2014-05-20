@@ -7,7 +7,6 @@
  */
 namespace MikeFunk\BustersPhp\Tests;
 
-use Exception;
 use MikeFunk\BustersPhp\BustersPhp;
 use Mockery;
 
@@ -66,7 +65,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
     /**
      * fail with no busters.json
      *
-     * @expectedException Exception
+     * @expectedException LengthException
      * @return void
      */
     public function testCssFailNoBustersJsonFile()
@@ -89,7 +88,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
     {
         // mock getFile to return test json
         $fileSystem = Mockery::mock('MikeFunk\BustersPhp\Support\FileSystem');
-        $json = '{"myfile.js": "4kfgkl2"}';
+        $json = '{"myfile.js": "ofl23k2"}';
         $fileSystem
             ->shouldReceive('fileExists')
             ->andReturn(true)
@@ -113,7 +112,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
     {
         // mock getFile to return test json
         $fileSystem = Mockery::mock('MikeFunk\BustersPhp\Support\FileSystem');
-        $json = '{"path/to/myfile.js": "4kfgkl2"}';
+        $json = '{"path/to/myfile.js": "2kfoclwk"}';
         $fileSystem
             ->shouldReceive('fileExists')
             ->andReturn(true)
@@ -127,7 +126,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
         $bustersPhp = new BustersPhp($config, $fileSystem);
 
         // ensure output is like template
-        $this->assertEquals('//mysite.com/path/to/myfile.4kfgkl2.testjs', $bustersPhp->js());
+        $this->assertEquals('//mysite.com/path/to/myfile.2kfoclwk.testjs', $bustersPhp->js());
     }
 
     /**
@@ -139,7 +138,7 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
     {
         // mock getFile to return test json
         $fileSystem = Mockery::mock('MikeFunk\BustersPhp\Support\FileSystem');
-        $json = '{"myfile.css": "4kfgkl2"}';
+        $json = '{"myfile.css": "olbbo2l5"}';
         $fileSystem
             ->shouldReceive('fileExists')
             ->andReturn(true)
@@ -159,11 +158,11 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testAssets()
+    public function testAssetsSuccess()
     {
         // mock getFile to return test json
         $fileSystem = Mockery::mock('MikeFunk\BustersPhp\Support\FileSystem');
-        $json = '{"path/to/my/js/my_js_file.js": "4kfgkl2", "path/to/my/css/my_css_file.css": "5kfgkl2"}';
+        $json = '{"path/to/my/js/my_js_file.js": "50glk5ows", "path/to/my/css/my_css_file.css": "5kfgkl2"}';
         $fileSystem
             ->shouldReceive('fileExists')
             ->andReturn(true)
@@ -181,7 +180,76 @@ class BustersPhpTest extends \PHPUnit_Framework_TestCase
         // ensure output is like template
         $expected = '//mysite.com/path/to/my/css/my_css_file.5kfgkl2.testcss'
             ."\n"
-            .'//mysite.com/path/to/my/js/my_js_file.4kfgkl2.testjs';
+            .'//mysite.com/path/to/my/js/my_js_file.50glk5ows.testjs';
         $this->assertEquals($expected, $bustersPhp->assets());
     }
+
+    /**
+     * test assets method with invalid busters.json
+     *
+     * @expectedException UnexpectedValueException
+     * @return void
+     */
+    public function testAssetsFailInvalidJson()
+    {
+        // mock getFile to return test json
+        $fileSystem = Mockery::mock('MikeFunk\BustersPhp\Support\FileSystem');
+        $fileSystem->shouldReceive('fileExists')->andReturn(true);
+        $fileSystem->shouldReceive('getFile')->andReturn('34t43oglf34');
+
+        // set template
+        // call, ensure output is as expected
+        $config = array(
+            'jsTemplate'  => '{{ROOT_PATH}}/{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testjs',
+            'cssTemplate'  => '{{ROOT_PATH}}/{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testcss',
+        );
+        $bustersPhp = new BustersPhp($config, $fileSystem);
+        $throwExceptionHere = $bustersPhp->assets();
+    }
+
+    /**
+     * test assets method with no busters.json file
+     *
+     * @expectedException LengthException
+     * @return void
+     */
+    public function testAssetsFailNoJsonFile()
+    {
+        // mock getFile to return test json
+        $fileSystem = Mockery::mock('MikeFunk\BustersPhp\Support\FileSystem');
+        $fileSystem->shouldReceive('fileExists')->andReturn(false);
+
+        // set template
+        // call, ensure output is as expected
+        $config = array(
+            'jsTemplate'  => '{{ROOT_PATH}}/{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testjs',
+            'cssTemplate'  => '{{ROOT_PATH}}/{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testcss',
+        );
+        $bustersPhp = new BustersPhp($config, $fileSystem);
+        $throwExceptionHere = $bustersPhp->assets();
+    }
+
+    /**
+     * test assets method with no busters.json file
+     *
+     * @expectedException UnderflowException
+     * @return void
+     */
+    public function testAssetsFailEmptyJson()
+    {
+        // mock getFile to return test json
+        $fileSystem = Mockery::mock('MikeFunk\BustersPhp\Support\FileSystem');
+        $fileSystem->shouldReceive('fileExists')->andReturn(true);
+        $fileSystem->shouldReceive('getFile')->andReturnNull();
+
+        // set template
+        // call, ensure output is as expected
+        $config = array(
+            'jsTemplate'  => '{{ROOT_PATH}}/{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testjs',
+            'cssTemplate'  => '{{ROOT_PATH}}/{{FILE_PATH}}/{{FILE_NAME}}.{{HASH}}.testcss',
+        );
+        $bustersPhp = new BustersPhp($config, $fileSystem);
+        $throwExceptionHere = $bustersPhp->assets();
+    }
+
 }
