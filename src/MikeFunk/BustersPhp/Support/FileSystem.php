@@ -28,7 +28,7 @@ class FileSystem
     /**
      * pass through to require
      *
-     * @param string $filePath
+     * @param  string $filePath
      * @return string the file contents
      */
     public function getFile($filePath)

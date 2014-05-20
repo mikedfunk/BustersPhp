@@ -7,8 +7,10 @@
  */
 namespace MikeFunk\BustersPhp;
 
-use Exception;
+use LengthException;
 use MikeFunk\BustersPhp\Support\FileSystem;
+use UnderflowException;
+use UnexpectedValueException;
 
 /**
  * BustersPhp
@@ -93,19 +95,31 @@ class BustersPhp implements BustersPhpInterface
     /**
      * abstracted single asset
      *
-     * @param string $type either 'css' or 'js'
+     * @param  string $type either 'css' or 'js'
+     * @throws LengthException if the busters.json file is not found
+     * @throws UnderflowException if the busters.json file contents are empty
+     * @throws UnexpectedValueException if the busters.json has text but is not
+     * valid json
      * @return string
      */
     protected function asset($type)
     {
         // if no bustersJson, exception
-        if (!$this->fileSystem->fileExists($this->config['bustersJsonPath'])) {
-            throw new Exception('busters json not found');
+        if ($this->fileSystem->fileExists($this->config['bustersJsonPath']) === false) {
+            throw new LengthException('busters json not found.');
         }
 
         // get busters json and decode it
         $bustersJson = $this->fileSystem->getFile($this->config['bustersJsonPath']);
+        if ($bustersJson == '') {
+            throw new UnderflowException('busters json is empty.');
+        }
         $busters = json_decode($bustersJson);
+
+        // is it valid json?
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new UnexpectedValueException('bustersJson is invalid JSON.');
+        }
 
         // get busters.json hash for item of this type mapped down to this type
         // only
@@ -134,6 +148,7 @@ class BustersPhp implements BustersPhpInterface
             $template        = str_replace('{{FILE_NAME}}', $fileBaseName, $template);
             $busterStrings[] = $template;
         }
+
         return implode("\n", $busterStrings);
     }
 
