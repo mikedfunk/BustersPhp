@@ -19,6 +19,7 @@ use UnexpectedValueException;
  */
 class BustersPhp implements BustersPhpInterface
 {
+
     /**
      * config location
      *
@@ -44,7 +45,7 @@ class BustersPhp implements BustersPhpInterface
      * get config if passed in. also ghetto dependency injection for mocking
      * the file system in testing.
      *
-     * @param array $config (default: array())
+     * @param array           $config     (default: array())
      * @param null|FileSystem $fileSystem optional dependency injection
      */
     public function __construct(array $config = array(), $fileSystem = null)
@@ -63,6 +64,36 @@ class BustersPhp implements BustersPhpInterface
     }
 
     /**
+     * return both css and js html tags
+     *
+     * @return string
+     */
+    public function assets()
+    {
+        return $this->asset('css')."\n".$this->asset('js');
+    }
+
+    /**
+     * return css html link tag
+     *
+     * @return string
+     */
+    public function css()
+    {
+        return $this->asset('css');
+    }
+
+    /**
+     * return js html script tag
+     *
+     * @return string
+     */
+    public function js()
+    {
+        return $this->asset('js');
+    }
+
+    /**
      * get config array
      *
      * @return array
@@ -73,36 +104,42 @@ class BustersPhp implements BustersPhpInterface
     }
 
     /**
-     * return css link tag
-     *
-     * @return string
-     */
-    public function css()
-    {
-        return $this->asset('css');
-    }
-
-    /**
-     * return js script tag
-     *
-     * @return string
-     */
-    public function js()
-    {
-        return $this->asset('js');
-    }
-
-    /**
      * abstracted single asset
      *
-     * @param  string $type either 'css' or 'js'
-     * @throws LengthException if the busters.json file is not found
-     * @throws UnderflowException if the busters.json file contents are empty
+     * @param  string                   $type either 'css' or 'js'
+     * @throws LengthException          if the busters.json file is not found
+     * @throws UnderflowException       if the busters.json file contents are empty
      * @throws UnexpectedValueException if the busters.json has text but is not
-     * valid json
+     *                                       valid json
      * @return string
      */
     protected function asset($type)
+    {
+        $busters = $this->checkAndGetBusters();
+
+        // get busters.json hash for item of this type mapped down to this type
+        // only
+        $bustersOfThisType = array();
+        foreach ($busters as $key => $value) {
+            if (strpos($key, $type) !== false) {
+                $bustersOfThisType[$key] = $value;
+            }
+        }
+
+        $busterStrings = $this->parseTags($bustersOfThisType, $type);
+
+        return implode("\n", $busterStrings);
+    }
+
+    /**
+     * Check for errors in busters.json
+     *
+     * @throws LengthException          if the busters.json file is not found
+     * @throws UnderflowException       if the busters.json file contents are empty
+     * @throws UnexpectedValueException if the busters.json has text but is not
+     * @return array                    the parsed json in busters.json
+     */
+    protected function checkAndGetBusters()
     {
         // if no bustersJson, exception
         if ($this->fileSystem->fileExists($this->config['bustersJsonPath']) === false) {
@@ -121,14 +158,18 @@ class BustersPhp implements BustersPhpInterface
             throw new UnexpectedValueException('bustersJson is invalid JSON.');
         }
 
-        // get busters.json hash for item of this type mapped down to this type
-        // only
-        $bustersOfThisType = array();
-        foreach ($busters as $key => $value) {
-            if (strpos($key, $type) !== false) {
-                $bustersOfThisType[$key] = $value;
-            }
-        }
+        return $busters;
+    }
+
+    /**
+     * Replace the tags in the template with the actual values
+     *
+     * @param  array  $bustersOfThisType
+     * @param  string $type              css or js
+     * @return array
+     */
+    protected function parseTags(array $bustersOfThisType, $type)
+    {
 
         // add to array and implode to string
         $busterStrings = array();
@@ -149,16 +190,6 @@ class BustersPhp implements BustersPhpInterface
             $busterStrings[] = $template;
         }
 
-        return implode("\n", $busterStrings);
-    }
-
-    /**
-     * return both tags
-     *
-     * @return string
-     */
-    public function assets()
-    {
-        return $this->asset('css')."\n".$this->asset('js');
+        return $busterStrings;
     }
 }
