@@ -19,10 +19,10 @@ Then you can put ```<?=$bustersPhp->assets()?>``` in your view and it will displ
 
 ## Installation
 
-[Get composer](http://getcomposer.org), then put this in your composer.json:
+[Get composer](http://getcomposer.org), then put this in your `composer.json` in the "require" block:
 
 ```json
-require "mikefunk/bustersphp": "1.1.*"
+"mikefunk/bustersphp": "1.1.*"
 ```
 
 then run `composer update`.
