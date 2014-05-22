@@ -17,6 +17,16 @@ Then you can put ```<?=$bustersPhp->assets()?>``` in your view and it will displ
 <script src="//mysite.com/path/to/app.min.03cbc5dc0b5b117264ae74515cd3fb76.js"></script>
 ```
 
+## Installation
+
+[Get composer](http://getcomposer.org), then put this in your composer.json:
+
+```json
+require "mikefunk/bustersphp": "1.1.*"
+```
+
+then run `composer update`.
+
 ## Usage
 
 * use [gulp-buster](https://www.npmjs.org/package/gulp-buster) to generate combined css/js cache files with the hash as the file name
